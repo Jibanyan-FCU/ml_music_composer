@@ -1,4 +1,4 @@
-索引
+文件索引
 ===
 
 GitHub
@@ -27,7 +27,7 @@ HackMD 書本模式
 - 模型探討
     - [LSTM 模型之概念與其優缺點探討](https://hackmd.io/7Mc4fPtOTZCDd0wc5usayg)
     - [GAN 模型之概念與其優缺點探討](https://hackmd.io/lu3ajyk1Syuwarm0jzX9QQ)
-    - [WaveNet 模型之概念與其優缺點探討](/7stJ2FGFRpKwStfMzDwy6g)
+    - [WaveNet 模型之概念與其優缺點探討](https://hackmd.io/7stJ2FGFRpKwStfMzDwy6g)
     - [三種模型比較與選擇模型](https://hackmd.io/vj5K4YPzSqmpIbRUhNvfuQ)
 - 程式實作
     - [Git 操作練習](https://hackmd.io/zR-wXKpWQK-NcthA35ro9w)
