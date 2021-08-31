@@ -1,0 +1,1 @@
+from general.ver1.score import Score
