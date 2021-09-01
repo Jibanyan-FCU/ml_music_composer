@@ -8,7 +8,7 @@ from keras.models import Sequential, load_model
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model #need to goin file(vis_utils)
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, LeakyReLU
-from keras.optimizers import adam_v2
+from keras.optimizers import Adam
 from keras.layers import Reshape
 from keras.layers import Conv2DTranspose
 
@@ -16,6 +16,7 @@ from numpy import expand_dims, zeros, ones
 from numpy.random import randint, randn
 from matplotlib import pyplot
 # load dataset
+
 from model.preprocess import *
 
 #Generater
@@ -97,7 +98,7 @@ def define_discriminator(in_shape=(96,88,1)):
 	model.add(Flatten()) # 33792
 	model.add(Dense(1, activation='sigmoid'))
 	# compile model
-	opt = adam_v2.Adam(learning_rate=0.0002, beta_1=0.5)
+	opt = Adam(learning_rate=0.0002, beta_1=0.5)
 	model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
 	return model
  
@@ -106,13 +107,13 @@ model = define_discriminator()
 # summarize the model
 model.summary()
 # plot the model
-plot_model(model, to_file='discriminator_plot.png', show_shapes=True, show_layer_names=True)
+# plot_model(model, to_file='discriminator_plot.png', show_shapes=True, show_layer_names=True)
 
 #prepare data
 #link with preprocess
 scores = open_and_trafer_score()
 score = scores[0]
-s = score.get_all_measure_graphs_feature()
+s = score.get_all_measure_graphs_and_feature()
 measure = s[0]
 '''
 x_train, y_train = measure['graph'], measure['feature']
