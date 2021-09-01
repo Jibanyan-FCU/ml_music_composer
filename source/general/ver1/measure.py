@@ -6,41 +6,58 @@ class Measure:
     '''
     Class `Measure` is used to record some information of a measure.
     In version 1, there are melody, measure number, key and meter.
+
+    Constant
+    ---
+    `DEFAULT_UNITS_PER_QUARTER`: 24
+        A unit is one twenty-fourth of a quarter length.
+
+    `DEFAULT_PITCH_NUMBER`: 88
+        Pitch number of 88-key piano.
+
+    `PITCH_A0_MIDI_CODE`: 21
+        The midi code of lowest pitch on piano.
+
+    Note
+    ---
+    This version dosen't deal with pickup measure, candenza and other special notation.
+    Constructing object by np.array(sharp(2,_,88)) hasn't been finished.
+
+    It will be tried to fix or add the function above.
     '''
     DEFAULT_UNITS_PER_QUARTER = 24
     DEFAULT_PITCH_NUMBER = 88
 
     PITCH_A0_MIDI_CODE = 21
+
     def __init__(self, measure:dict, feature: dict):
         '''
         Arguments
         ---
-        `notes`:
+        `notes`: dict
+            - `"right"`: list[music21.note.Note], all notes in the right hand staff of the measure.
+            - `"left"`: list[music21.note.Note], all notes in the left hand staff of the measure.
 
         `number`: int
             Number of a measure.
 
-        `feature`:
-            - `key`: int, sharps number of the key signature. It would be negative number to show how many flat.
-            - `meter`: tuple(int,int), time signature '3/4' be recorded as (3,4)
+        `feature`: dict
+            - `"key"`: int, sharps number of the key signature. It would be negative number to show how many flat.
+            - `"meter"`: tuple(int,int), time signature '3/4' be recorded as (3,4)
 
         Parameters
         ---
         `measure`: dict
             The dictionary must has three keys: `measure_number`, `right` and `left`.
-            - `measure_number`: int, number of measure.
-            - `right`: music21.stream.Measure, part of right head staff of measure.
-            - `left`: music21.stream.Measure, part of left head staff of measure.
+            - `"measure_number"`: int, number of measure.
+            - `"right"`: music21.stream.Measure, part of right head staff of measure.
+            - `"left"`: music21.stream.Measure, part of left head staff of measure.
 
         `feature`: dict
             A dictionary record meter and key signature of a measure.
-            - `key`: music21.key.keySignature, key signature of a measure
-            - `meter`: music21.meter.TimeSignature, meter of a measure
+            - `"key"`: music21.key.keySignature, key signature of a measure
+            - `"meter"`: music21.meter.TimeSignature, meter of a measure
 
-        Note
-        ---
-        This version dosen't deal with pickup measure and candenza (etc.) so those case might have problem.
-        It should be tried to find a solution in next version.
         '''
 
         # parse feature info
@@ -64,8 +81,8 @@ class Measure:
             Returns
             ---
             A dictionary including two key:
-            - `right`: np.array(shape=(__,88), dtype=np.uint8), measure graph on the right part of measure.
-            - `left`: np.array(shape=(__,88), dtype=np.int8), measure graph on the left part of measure.
+            - `"right"`: np.array(shape=(__,88), dtype=np.uint8), measure graph on the right part of measure.
+            - `"left"`: np.array(shape=(__,88), dtype=np.int8), measure graph on the left part of measure.
         '''
         meter = self.feature['meter']
         total_time_unit = int(self.DEFAULT_UNITS_PER_QUARTER * meter[0] / meter[1] * 4)
@@ -99,7 +116,28 @@ class Measure:
         elif type(note) is music21.chord.Chord:
             return [int(x.ps) - self.PITCH_A0_MIDI_CODE for x in note.pitches]
 
-    def get_measure_graph_and_feature(self, mode='training'):
+    def get_measure_graph_and_feature(self, mode:str='training'):
+        '''
+        An API to get all the infomation of the measure.
+
+        Parameters
+        ---
+        `mode`: str='training'
+            The return format. `"training"` will `return np.array(shape(2,_,88)`,
+            other words will return `dict`.
+
+        Return
+        ---
+        It will return by a dictionary.
+
+        `"graph"`: dict | np.array(shape(2,_,88))
+            Graph trafered from measrue. Return type is judged by `mode`.
+            The structure of `dict` is same as return value of `self.get_measure_graph()`.
+            For training mode will conbine `"right"` and '`left`' to `np.array(shape(2,_,88))`.
+
+        `"feature"`: dict
+            The feature of the measure. See `Measure.feature`.
+        '''
         graph = self.get_measure_graph()
         if mode == 'training':
             total_time_unit = len(graph['right'])

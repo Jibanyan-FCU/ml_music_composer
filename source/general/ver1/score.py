@@ -51,6 +51,7 @@ class Score:
         
         self.measures = []
 
+        # record all measure information
         for current_measure in all_measures:
             # check new signature
             if current_measure['right'].keySignature is not None:
@@ -58,11 +59,22 @@ class Score:
             if current_measure['right'].timeSignature is not None:
                 measure_feature['meter'] = current_measure['right'].timeSignature
             
-            # record measure infomation
+            # save to Measure object
             new_measure = Measure(current_measure, measure_feature)
             self.measures.append(new_measure)
 
     def get_all_measure_graphs_and_feature(self, mode='training'):
+        '''
+        Get all measures graph and measure feature of the score.
+
+        Returns
+        ---
+        list(dict)
+
+        Note
+        ---
+        See `Measure.get_measure_graph_and_feature()`
+        '''
         measure_graphs = []
         for measure in self.measures:
             measure_graph = measure.get_measure_graph_and_feature(mode=mode)
