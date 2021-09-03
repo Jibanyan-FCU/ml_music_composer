@@ -76,15 +76,31 @@ model = define_generator(latent_dim)
 n_samples = 10
 X, _ = generate_fake_samples(model, latent_dim, n_samples)
 # plot the generated samples
+
+# set picture size
+fig = plt.gcf()
+fig.set_size_inches(40,40)
+
+# 1 or 0
+for sample_number in range(n_samples) :
+  for row in range(measure_len) :
+    for column in range(measure_pitch) :
+      if X[sample_number][row][column]>0.5:
+        X[sample_number][row][column] = 1
+      else :
+        X[sample_number][row][column] = 0
+
+print("after only 1 and 0\n")
+
 for i in range(n_samples):
 	# define subplot
-	pyplot.subplot(5, 5, 1 + i)
+	plt.subplot(5, 5, 1 + i)
 	# turn off axis labels
-	pyplot.axis('off')
+	plt.axis('off')
 	# plot single image
-	pyplot.imshow(X[i, :, :, 0], cmap='gray_r')
+	plt.imshow(X[i, :, :, 0], cmap='gray_r')
 # show the figure
-pyplot.show()
+plt.show()
 
 #Discriminator
 def define_discriminator(in_shape=(96,88,1)):
@@ -148,3 +164,6 @@ def generate_fake_samples(n_samples):
 	return X, y
 
 #training
+
+
+# 
