@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import random as rand
- 
+import keras
+
+from tensorflow import keras
 from keras.models import Sequential, load_model
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model #need to goin file(vis_utils)
