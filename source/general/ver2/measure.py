@@ -30,40 +30,20 @@ class Measure:
     PITCH_A0_MIDI_CODE = 21
 
     @classmethod
-    def tranfer_graph_to_music21_measure(measure_graph:np.array) -> music21.stream.Measure:
+    def tranfer_graph_to_music21_measure(graph:np.array) -> music21.stream.Measure:
+        voices = [[] for _ in range(8)]
+        for k in range(8):
+            for j in range(1):
+                pass
 
-        # the note on
-        NOTE_OFF = -1
-
-        # get all note-on index
-        right_staff = np.nonzero(measure_graph[0])
-        left_staff = np.nonzero(measure_graph[1])
-        staffs = [right_staff, left_staff]
-        
-        TOTAL_TIME_UNITS = len(staffs[0])
-
-        note_list = []
-
-        # find all note
-        for staff in staffs:
-            start_times_of_pitch = [NOTE_OFF for _ in Measure.DEFAULT_PITCH_NUMBER]
-            for i in range(TOTAL_TIME_UNITS):
-                for j in range(Measure.DEFAULT_PITCH_NUMBER):
-                    if staff[i][j] == 1 and not i == TOTAL_TIME_UNITS:
-                        if start_times_of_pitch[j] == NOTE_OFF:
-                            start_times_of_pitch[j] = i
-                    else:
-                        if start_times_of_pitch != NOTE_OFF:
-                            offset = start_times_of_pitch[j]
                     
         
     def __init__(self, measure:dict, feature: dict):
         '''
         Arguments
         ---
-        `notes`: dict
-            - `"right"`: list[music21.note.Note], all notes in the right hand staff of the measure.
-            - `"left"`: list[music21.note.Note], all notes in the left hand staff of the measure.
+        `notes`: list(list(musci21.note.Note))
+            All notes in each voice part
 
         `number`: int
             Number of a measure.
@@ -92,48 +72,49 @@ class Measure:
         meter = feature['meter']
         meter = (meter.numerator, meter.denominator)
 
+        voice_start_index = {'right': 0, 'left': 4}
+        notes = [[] for _ in range(8)]
+
         # get all notes information
-        right_notes = measure['right'].recurse().notes
-        left_notes = measure['left'].recurse().notes
+        measure_lables = ['right', 'left']
+        for measure_lable in measure_lables:
+            start_index = voice_start_index[measure_lable]
+            voices = measure[measure_lable].voices
+            if len(voices) == 0:
+                for note in measure[measure_lable].notes:
+                    notes[start_index].append(note)
+            else:
+                for i in range(len(voices)):
+                    insert_voice = voice_start_index[measure_lable] + i
+                    for note in voices[i].notes:
+                        notes[insert_voice].append(note)
 
         # save to object
-        self.notes = {'right': right_notes, 'left': left_notes}
+        self.notes = notes
         self.number = measure['measure_number']
         self.feature = {'key': key, 'meter': meter}
 
-    def get_measure_graph(self) -> dict:
+    def get_measure_graph(self) -> np.array:
         '''
             Tranfer to measure graph (pianoroll like).
 
             Returns
             ---
-            A dictionary including two key:
-            - `"right"`: np.array(shape=(__,88), dtype=np.uint8), measure graph on the right part of measure.
-            - `"left"`: np.array(shape=(__,88), dtype=np.int8), measure graph on the left part of measure.
+            A pianoroll-like graph made from np.array
         '''
         meter = self.feature['meter']
         total_time_unit = int(self.DEFAULT_UNITS_PER_QUARTER * meter[0] / meter[1] * 4)
 
-        right_graph = np.zeros((total_time_unit, self.DEFAULT_PITCH_NUMBER), dtype='uint8')
-        left_graph = np.zeros((total_time_unit, self.DEFAULT_PITCH_NUMBER), dtype='uint8')
+        graph = np.zeros((total_time_unit, self.DEFAULT_PITCH_NUMBER, 8))
+        for k in range(8):
+            for note_or_chord in self.notes[k]:
+                start_index = int(note_or_chord.offset * self.DEFAULT_UNITS_PER_QUARTER)
+                end_index = int(start_index + note_or_chord.quarterLength * self.DEFAULT_UNITS_PER_QUARTER) - 1
+                pitches = self.__make_pitchs_index_list(note_or_chord)
 
-        graph = {'right': right_graph, 'left': left_graph}
-
-        for part in self.notes:
-            # make right part of measure graph
-            for note in self.notes[part]:
-                # pitch index
-                pitch_index_list = self.__make_pitchs_index_list(note)
-                
-                # time range
-                begin_unit_index = int(note.offset * self.DEFAULT_UNITS_PER_QUARTER)
-                end_unit_index = int((note.offset + note.quarterLength) * self.DEFAULT_UNITS_PER_QUARTER)
-                end_unit_index = min(end_unit_index, total_time_unit)
-
-                # fill block
-                for j in pitch_index_list:
-                    for i in range(begin_unit_index, end_unit_index):
-                        graph[part][i][j] = 1
+                for j in pitches:
+                    for i in range(start_index, end_index):
+                        graph[i][j][k] = 1
 
         return graph
     
@@ -157,19 +138,14 @@ class Measure:
         ---
         It will return by a dictionary.
 
-        `"graph"`: dict | np.array(shape(2,_,88))
-            Graph trafered from measrue. Return type is judged by `mode`.
-            The structure of `dict` is same as return value of `self.get_measure_graph()`.
-            For training mode will conbine `"right"` and '`left`' to `np.array(shape(2,_,88))`.
+        `"graph"`: np.array
+            A pianoroll-like graph made from np.array
 
         `"feature"`: dict
             The feature of the measure. See `Measure.feature`.
         '''
         graph = self.get_measure_graph()
-        if mode == 'training':
-            total_time_unit = len(graph['right'])
-            graph = np.append(graph['right'], graph['left']).reshape(2, total_time_unit, self.DEFAULT_PITCH_NUMBER)
-        
+
         return {'graph':graph, 'feature': self.feature}
 
         
