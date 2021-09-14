@@ -142,6 +142,7 @@ def loda_data():
 	counter_train : uint8, counter of x_train and y_train([measure, , ])
 	counter_test : uint8, counter of x_test and y_test([measure, , ])
 	'''
+
 	x_train=np.zeros([60,96,88])
 	y_train=np.zeros([60,96,88])
 	x_test=np.zeros([60,96,88])
@@ -158,7 +159,7 @@ def loda_data():
 	for i in range(100,120): #test
 		score = scores[i] #曲子
 		s = score.get_all_measure_graphs_and_feature()
-		for j in range():
+		for j in range(len(s)):
 			measure=s[j] #小節
 			x_test[counter_test],y_test[counter_test] = measure['graph'], measure['feature']
 			counter_test+=1
