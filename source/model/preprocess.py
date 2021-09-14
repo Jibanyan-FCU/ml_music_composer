@@ -1,4 +1,4 @@
-from general.ver1 import *
+from general.ver2 import *
 
 import music21
 import glob
