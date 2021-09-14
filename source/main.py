@@ -3,9 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import random as rand
-import keras
 
-from tensorflow import keras
 from keras.models import Sequential, load_model
 from keras.utils import np_utils
 from keras.utils.vis_utils import plot_model #need to goin file(vis_utils)
@@ -133,14 +131,45 @@ scores = open_and_trafer_score()
 score = scores[0]
 s = score.get_all_measure_graphs_and_feature()
 measure = s[0]
-'''
-x_train, y_train = measure['graph'], measure['feature']
-'''
+def loda_data():
+	'''
+	i : uint8, 曲子數量, index of scores[]
+	j : uint8, 每首曲子小節數量, index of s[]
+	x_train : nparray([?,96,88])，裝用來訓練的100首曲子的小節圖
+	y_train : nparray([?,96,88])，裝用來訓練的100首曲子的小節圖的label
+	x_test : nparray([?,96,88])，裝用來測試的20首曲子的小節圖
+	y_test : nparray([?,96,88])，裝用來測試的20首曲子的小節圖的label
+	counter_train : uint8, counter of x_train and y_train([measure, , ])
+	counter_test : uint8, counter of x_test and y_test([measure, , ])
+	'''
+	x_train=np.zeros([60,96,88])
+	y_train=np.zeros([60,96,88])
+	x_test=np.zeros([60,96,88])
+	y_test=np.zeros([60,96,88])
+	counter_train=0
+	counter_test=0
+	for i in range(0,100): #train
+		score = scores[i] #曲子
+		s = score.get_all_measure_graphs_and_feature()
+		for j in range(len(s)):
+			measure=s[j] #小節
+			x_train[counter_train], y_train[counter_train] = measure['graph'], measure['feature']
+			counter_train+=1
+	for i in range(100,120): #test
+		score = scores[i] #曲子
+		s = score.get_all_measure_graphs_and_feature()
+		for j in range():
+			measure=s[j] #小節
+			x_test[counter_test],y_test[counter_test] = measure['graph'], measure['feature']
+			counter_test+=1
+	return x_train, y_train, x_test, y_test
+
+
 def load_real_sample():
 	# x_train,Y_train is array
-	x_train = measure['graph']
+	(trainX,trainY), (testX, testY) = loda_data()
 	# expand to 3d, e.g. add channels dimension
-	X = expand_dims(x_train, axis=-1)
+	X = expand_dims(trainX, axis=-1)
 	# convert from unsigned ints to floats
 	X = X.astype('float32')
 	return X
