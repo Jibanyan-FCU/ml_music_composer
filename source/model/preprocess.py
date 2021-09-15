@@ -8,7 +8,6 @@ def open_and_trafer_score(root_path:str = r'source/model/sheet'):
         Open mxl files and tranfer them to Score object.
     '''
     pathes = glob.glob(root_path + r'\*.mxl')
-    
     scores = []
     bacth, fail = 0, 0
     for path in pathes:

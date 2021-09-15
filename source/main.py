@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from numpy.core.shape_base import vstack
 import pandas as pd
 import random as rand
 
@@ -143,10 +144,10 @@ def loda_data():
 	counter_test : uint8, counter of x_test and y_test([measure, , ])
 	'''
 
-	x_train=np.zeros([60,96,88])
-	y_train=np.zeros([60,96,88])
-	x_test=np.zeros([60,96,88])
-	y_test=np.zeros([60,96,88])
+	x_train=np.zeros([40950,96,88])
+	y_train=np.zeros([40950,96,88])
+	x_test=np.zeros([30000,96,88])
+	y_test=np.zeros([30000,96,88])
 	counter_train=0
 	counter_test=0
 	for i in range(0,100): #train
@@ -166,7 +167,7 @@ def loda_data():
 	return x_train, y_train, x_test, y_test
 
 
-def load_real_sample():
+def load_real_samples():
 	# x_train,Y_train is array
 	(trainX,trainY), (testX, testY) = loda_data()
 	# expand to 3d, e.g. add channels dimension
@@ -213,3 +214,24 @@ def train_discriminator(model, dataset, n_iter=100, n_batch=256):
 		# summarize performance
 		print('>%d real=%.0f%% fake=%.0f%%' % (i+1, real_acc*100, fake_acc*100))
 
+# define the discriminator model
+model = define_discriminator()
+# load image data
+dataset = load_real_samples()
+# fit the model
+train_discriminator(model, dataset)
+# define the combined generator and discriminator model, for updating the generator
+def define_gan(g_model, d_model):
+	# make weights in the discriminator not trainable
+	d_model.trainable = False
+	# connect them
+	model = Sequential()
+	# add generator
+	model.add(g_model)
+	# add the discriminator
+	model.add(d_model)
+	# compile model
+	opt = Adam(lr=0.0002, beta_1=0.5)
+	model.compile(loss='binary_crossentropy', optimizer=opt)
+	return model
+ 
