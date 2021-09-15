@@ -1,6 +1,5 @@
 import music21
 import numpy as np
-from numpy.core.fromnumeric import shape
 
 class Measure:
     '''
@@ -29,6 +28,35 @@ class Measure:
     DEFAULT_PITCH_NUMBER = 88
 
     PITCH_A0_MIDI_CODE = 21
+
+    @classmethod
+    def tranfer_graph_to_music21_measure(measure_graph:np.array) -> music21.stream.Measure:
+
+        # the note on
+        NOTE_OFF = -1
+
+        # get all note-on index
+        right_staff = np.nonzero(measure_graph[0])
+        left_staff = np.nonzero(measure_graph[1])
+        staffs = [right_staff, left_staff]
+        
+        TOTAL_TIME_UNITS = len(staffs[0])
+
+        note_list = []
+
+        # find all note
+        for staff in staffs:
+            start_times_of_pitch = [NOTE_OFF for _ in Measure.DEFAULT_PITCH_NUMBER]
+            for i in range(TOTAL_TIME_UNITS):
+                for j in range(Measure.DEFAULT_PITCH_NUMBER):
+                    if staff[i][j] == 1 and not i == TOTAL_TIME_UNITS:
+                        if start_times_of_pitch[j] == NOTE_OFF:
+                            start_times_of_pitch[j] = i
+                    else:
+                        if start_times_of_pitch != NOTE_OFF:
+                            offset = start_times_of_pitch[j]
+                    
+        
     def __init__(self, measure:dict, feature: dict):
         '''
         Arguments
@@ -143,6 +171,8 @@ class Measure:
             graph = np.append(graph['right'], graph['left']).reshape(2, total_time_unit, self.DEFAULT_PITCH_NUMBER)
         
         return {'graph':graph, 'feature': self.feature}
+
+        
 
 
         

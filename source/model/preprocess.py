@@ -1,4 +1,4 @@
-from general.ver1 import *
+from general.ver2 import *
 
 import music21
 import glob
@@ -11,7 +11,6 @@ def open_and_trafer_score(root_path:str=r'source\model\sheet'):
     
     scores = []
 
-    bacth, fail = 0, 0
     for path in pathes:
         try:
             new_score = Score(path)
@@ -20,7 +19,3 @@ def open_and_trafer_score(root_path:str=r'source\model\sheet'):
             pass
     
     return scores
-
-
-
-
