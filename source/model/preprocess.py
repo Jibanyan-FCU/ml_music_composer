@@ -9,7 +9,6 @@ def open_and_trafer_score(root_path:str = r'source/model/sheet'):
     '''
     pathes = glob.glob(root_path + r'\*.mxl')
     scores = []
-    bacth, fail = 0, 0
     for path in pathes:
         try:
             new_score = Score(path)
@@ -17,7 +16,3 @@ def open_and_trafer_score(root_path:str = r'source/model/sheet'):
         except:
             pass
     return scores
-
-
-
-

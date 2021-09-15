@@ -132,8 +132,8 @@ scores = open_and_trafer_score()
 score = scores[0]
 s = score.get_all_measure_graphs_and_feature()
 measure = s[0]
-def loda_data():
-	'''
+'''def loda_data():
+	
 	i : uint8, 曲子數量, index of scores[]
 	j : uint8, 每首曲子小節數量, index of s[]
 	x_train : nparray([?,96,88])，裝用來訓練的100首曲子的小節圖
@@ -142,12 +142,12 @@ def loda_data():
 	y_test : nparray([?,96,88])，裝用來測試的20首曲子的小節圖的label
 	counter_train : uint8, counter of x_train and y_train([measure, , ])
 	counter_test : uint8, counter of x_test and y_test([measure, , ])
-	'''
+	
 
-	x_train=np.zeros([40950,96,88])
-	y_train=np.zeros([40950,96,88])
-	x_test=np.zeros([30000,96,88])
-	y_test=np.zeros([30000,96,88])
+	x_train=np.zeros([40950,48,88,8])
+	y_train=np.zeros([40950,48,88,8])
+	x_test=np.zeros([30000,48,88,8])
+	y_test=np.zeros([30000,48,88,8])
 	counter_train=0
 	counter_test=0
 	for i in range(0,100): #train
@@ -164,14 +164,14 @@ def loda_data():
 			measure=s[j] #小節
 			x_test[counter_test],y_test[counter_test] = measure['graph'], measure['feature']
 			counter_test+=1
-	return x_train, y_train, x_test, y_test
+	return x_train, y_train, x_test, y_test'''
 
 
 def load_real_samples():
 	# x_train,Y_train is array
-	(trainX,trainY), (testX, testY) = loda_data()
+	x_train=measure['graph']
 	# expand to 3d, e.g. add channels dimension
-	X = expand_dims(trainX, axis=-1)
+	X = expand_dims(x_train, axis=-1)
 	# convert from unsigned ints to floats
 	X = X.astype('float32')
 	return X
@@ -213,7 +213,7 @@ def train_discriminator(model, dataset, n_iter=100, n_batch=256):
 		_, fake_acc = model.train_on_batch(X_fake, y_fake)
 		# summarize performance
 		print('>%d real=%.0f%% fake=%.0f%%' % (i+1, real_acc*100, fake_acc*100))
-
+print("train_discriminator")
 # define the discriminator model
 model = define_discriminator()
 # load image data
