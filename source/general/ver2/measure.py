@@ -105,26 +105,30 @@ class Measure:
         meter = self.feature['meter']
         total_time_unit = int(self.DEFAULT_UNITS_PER_QUARTER * meter[0] / meter[1] * 4)
 
-        graph = np.zeros((total_time_unit, self.DEFAULT_PITCH_NUMBER, 8))
-        for k in range(8):
-            for note_or_chord in self.notes[k]:
-                start_index = int(note_or_chord.offset * self.DEFAULT_UNITS_PER_QUARTER)
-                end_index = int(start_index + note_or_chord.quarterLength * self.DEFAULT_UNITS_PER_QUARTER) - 1
-                pitches = self.__make_pitchs_index_list(note_or_chord)
+        graph = np.zeros((8, total_time_unit, self.DEFAULT_PITCH_NUMBER), dtype='int8')
 
-                for j in pitches:
-                    for i in range(start_index, end_index):
+        for i in range(8):
+            current_voice = self.notes[i]
+            for note_or_chord in current_voice:
+                start_index = int(note_or_chord.offset * self.DEFAULT_UNITS_PER_QUARTER)
+                end_index = start_index + int(note_or_chord.quarterLength * self.DEFAULT_UNITS_PER_QUARTER) - 1
+                pitches = self.__make_pitches_index_list(note_or_chord)
+                
+                for k in pitches:
+                    for j in range(start_index, end_index):
                         graph[i][j][k] = 1
+
+                    graph[i][end_index][k] = -1
 
         return graph
     
-    def __make_pitchs_index_list(self, note):
+    def __make_pitches_index_list(self, note):
         if type(note) is music21.note.Note:
             return [int(note.pitch.ps) - self.PITCH_A0_MIDI_CODE]
         elif type(note) is music21.chord.Chord:
             return [int(x.ps) - self.PITCH_A0_MIDI_CODE for x in note.pitches]
 
-    def get_measure_graph_and_feature(self, mode:str='training'):
+    def get_measure_graph_and_feature(self, mode:str='train'):
         '''
         An API to get all the infomation of the measure.
 

@@ -71,7 +71,7 @@ class Score:
         self.measures = measures
         self.features = None
 
-    def get_all_measure_graphs_and_feature(self, mode='training'):
+    def get_all_measure_graphs_and_feature(self, mode='train'):
         '''
         Get all measures graph and measure feature of the score.
 
