@@ -1,3 +1,4 @@
+from fractions import Fraction
 import music21
 import numpy as np
 
@@ -31,10 +32,9 @@ class Measure:
 
     @classmethod
     def tranfer_graph_to_music21_measure(graph:np.array) -> music21.stream.Measure:
-        voices = [[] for _ in range(8)]
-        for k in range(8):
-            for j in range(1):
-                pass
+        
+        note_or_chord_info = zip(np.nonzero(*graph))
+        voices = [music21.stream.Voice() for _ in range(8)]
 
                     
         
@@ -94,7 +94,7 @@ class Measure:
         self.number = measure['measure_number']
         self.feature = {'key': key, 'meter': meter}
 
-    def get_measure_graph(self) -> np.array:
+    def get_measure_graph(self, ignore_warning=False) -> np.array:
         '''
             Tranfer to measure graph (pianoroll like).
 
@@ -110,6 +110,15 @@ class Measure:
         for i in range(8):
             current_voice = self.notes[i]
             for note_or_chord in current_voice:
+
+                # check accurancy of note or chord
+                if not ignore_warning:
+                    q = note_or_chord.quarterLength
+                    f = Fraction(q)
+                    if not self.DEFAULT_UNITS_PER_QUARTER % f.denominator == 0:
+                        raise Warning('the base of the note or chords can\'t map to a unit on graph')
+                
+
                 start_index = int(note_or_chord.offset * self.DEFAULT_UNITS_PER_QUARTER)
                 end_index = start_index + int(note_or_chord.quarterLength * self.DEFAULT_UNITS_PER_QUARTER) - 1
                 pitches = self.__make_pitches_index_list(note_or_chord)
