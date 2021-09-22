@@ -9,6 +9,7 @@ def open_and_trafer_score(root_path:str = r'source/model/sheet'):
     '''
     pathes = glob.glob(root_path + r'\*.mxl')
     scores = []
+    
     for path in pathes:
         try:
             new_score = Score(path)
