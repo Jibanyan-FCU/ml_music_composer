@@ -1,6 +1,6 @@
-#testing
+#testing, translate piano roll to midi
 from mido import Message, MidiFile, MidiTrack
-
+from model.preprocess import *
 def stop_note(note, time):
     return Message('note_off', note = note,
                    velocity = 0, time = time)
@@ -34,13 +34,21 @@ def roll_to_track(roll):
                 notes[i] = False
         # ms per row
         delta += 500
-
+'''
 roll = [[0, 0, 0, 1, 0, 0, 0, 1, 0],
         [0, 0, 0, 1, 0, 0, 0, 1, 0],
         [0, 0, 0, 2, 0, 0, 0, 2, 0],
         [0, 1, 0, 2, 0, 0, 0, 2, 0],
         [0, 0, 0, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 0, 0, 0, 0]]
+        '''
+# from measure import roll to translate
+scores = open_and_trafer_score()
+score = scores[0]
+s = score.get_all_measure_graphs_and_feature()
+measure = s[0]
+roll = measure['graph']
+
 
 midi = MidiFile(type = 1)
 midi.tracks.append(MidiTrack(roll_to_track(roll)))
