@@ -13,7 +13,7 @@ from keras.optimizers import Adam
 from keras.layers import Reshape
 from keras.layers import Conv2DTranspose
 
-from numpy import expand_dims, zeros, ones
+from numpy import expand_dims, uint8, zeros, ones
 from numpy.random import randint, randn
 from matplotlib import pyplot
 # load dataset
@@ -128,18 +128,20 @@ model.summary()
 
 #prepare data
 #link with preprocess
+'''
 scores = open_and_trafer_score()
 score = scores[0]
 s = score.get_all_measure_graphs_and_feature()
 measure = s[0]
-'''def loda_data():
+
+def loda_data():
 	
 	i : uint8, 曲子數量, index of scores[]
 	j : uint8, 每首曲子小節數量, index of s[]
-	x_train : nparray([?,96,88])，裝用來訓練的100首曲子的小節圖
-	y_train : nparray([?,96,88])，裝用來訓練的100首曲子的小節圖的label
-	x_test : nparray([?,96,88])，裝用來測試的20首曲子的小節圖
-	y_test : nparray([?,96,88])，裝用來測試的20首曲子的小節圖的label
+	x_train : nparray([?,?,88])，裝用來訓練的100首曲子的小節圖
+	y_train : nparray([?,?,88])，裝用來訓練的100首曲子的小節圖的label
+	x_test : nparray([?,?,88])，裝用來測試的20首曲子的小節圖
+	y_test : nparray([?,?,88])，裝用來測試的20首曲子的小節圖的label
 	counter_train : uint8, counter of x_train and y_train([measure, , ])
 	counter_test : uint8, counter of x_test and y_test([measure, , ])
 	
@@ -166,14 +168,45 @@ measure = s[0]
 			counter_test+=1
 	return x_train, y_train, x_test, y_test'''
 
+try:
+	def load_data_cleansed():
+		'''
+		i : uint8, 曲子數量, index of scores[]
+		j : uint8, 每首曲子小節數量, index of s[]
+		x_train : nparray([40000,8,96,88])，裝用來訓練的100首曲子的小節圖
+		y_train : nparray([8,96,88])，裝用來訓練的100首曲子的小節圖的label
+		x_test : nparray([8,96,88])，裝用來測試的20首曲子的小節圖
+		y_test : nparray([8,96,88])，裝用來測試的20首曲子的小節圖的label
+		counter_train : uint8, counter of x_train and y_train([measure, , ])
+		counter_test : uint8, counter of x_test and y_test([measure, , ])'''
+		# prepare parameter
+		x_train_cleansed=np.zeros([60000,8,96,88],dtype= uint8)
+		y_train_cleansed=np.zeros([60000,])
 
+		counter_train=0
+		scores = open_and_trafer_score()
+		for i in range(len(scores)): 
+				# load one score from score array(scores[])
+			score = scores[i] #曲子
+			s = score.get_all_measure_graphs_and_feature()
+			for j in range(len(s)):
+				# load all meaasure from now score(s[])
+				if(s[j]['graph'].shape[1] == 96):
+					measure=s[j] #小節
+					x_train_cleansed[counter_train] = measure['graph']
+					y_train_cleansed[counter_train] = np.array(list(measure['feature'].meter()))
+					counter_train+=1
+				if(counter_train == 60000):
+					return x_train_cleansed,y_train_cleansed
+
+		return x_train_cleansed,y_train_cleansed
+except:
+	print("wait for data loading")
 def load_real_samples():
-	# x_train,Y_train is array
-	x_train=measure['graph']
+	# trainX,trainY is array
+	(trainX, trainY)=load_data_cleansed()
 	# expand to 3d, e.g. add channels dimension
-	X = expand_dims(x_train, axis=-1)
-	# convert from unsigned ints to floats
-	X = X.astype('float32')
+	X = expand_dims(trainX, axis=-1)
 	return X
 
 # select real samples
@@ -183,7 +216,7 @@ def generate_real_samples(dataset, n_samples):
 	# retrieve selected images
 	X = dataset[ix]
 	# generate 'real' class labels (1)
-	y = measure['feature']
+	y = ones((n_samples,1))
 	return X, y
 
 # generate n fake samples with class labels
@@ -216,8 +249,10 @@ def train_discriminator(model, dataset, n_iter=100, n_batch=256):
 print("train_discriminator")
 # define the discriminator model
 model = define_discriminator()
+print("model down!")
 # load image data
 dataset = load_real_samples()
+print("dataset down!")
 # fit the model
 train_discriminator(model, dataset)
 # define the combined generator and discriminator model, for updating the generator
