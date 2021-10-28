@@ -53,6 +53,7 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
-if __name__ == "__main__":
-	app.run(host='0.0.0.0',port='5000',debug=True) #執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
+'''if __name__ == "__main__":
+	app.run(host='0.0.0.0',port='5000',debug=True) '''
+#執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
 #ip = http://192.168.1.103:5000/
