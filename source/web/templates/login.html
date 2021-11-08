@@ -22,6 +22,7 @@
     <title>bittobeat</title>
     <link rel="icon" href="{{ url_for('static',filename='img/icon.PNG') }}">
     {% extends 'base.html' %}
+    {% import "bootstrap/wtf.html" as wtf %}
 </head>
 
 <body>
@@ -30,21 +31,21 @@
             <section id="login_register">
                 <div class="jumbotorn">
                     <div class="col-md-4 offset-4">
-                        <form action="">
+                        <form action="/">
                             <div class="row card">
                                 <h1 class="col-12">
-                                    <b>登入 / 註冊</b>
+                                    <b>sign in / sign up</b>
                                 </h1>
                                 <div class="col-8 offset-2">
-                                    <input class="col-12" type="text" placeholder="Username">
+                                    <!--<input class="col-12" type="text" placeholder="Username" name="account">-->
+                                    {{ wtf.form_field(form.user_account) }}
                                 </div>
                                 <div class="col-8 offset-2">
-                                    <input class="col-12" type="password" placeholder="Password">
+                                    <input class="col-12" type="password" placeholder="Password" name="password">
                                 </div>
                                 <div class="col-8 offset-2 row">
                                     <input class="col-5" type="submit" value="login" >
-                                    <input href="https://member.ithome.com.tw/login/Facebook" class="col-5 offset-2" type="submit"
-                                        value="register">
+                                    <a class="col-5 offset-2" href="{{url_for('register')}}">register</a>
                                 </div>
                             </div>
                         </form>
