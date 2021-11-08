@@ -3,13 +3,36 @@ from flask import Flask, render_template, url_for, redirect
 from flask.helpers import url_for
 #將flask中的Flask import 進來 以供使用
 from flask import request
+from flask_sqlalchemy import SQLAlchemy
+import pymysql
+import pymysql.cursors
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms.validators import DataRequired, Length, Email,InputRequired
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__) # 創建一個Flask的 instance
+Bootstrap(app)
+app.config['SECRET_KEY'] = 'this is a secret'
+'''app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'hb88501323@'
+app.config['MYSQL_DB'] = 'bittobeat_db'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql = MySQL(app)''' 
 
+class LoginForm(FlaskForm):
+    user_account = StringField('account',validators=[InputRequired(),Length(min=4,max=20)])
+    user_password = PasswordField('password',validators=[InputRequired(),Length(min=8,max=80)])
+    remember = BooleanField('remember me')
 #app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=1) 
-@app.route("/",methods=['POST','GET'])  # 告訴你怎樣的url可以call怎樣的function 許的method有什麼
 
-@app.route("/")  # 告訴你怎樣的url可以call怎樣的function
+class Register(FlaskForm):
+    #user_email = StringField('email',validators=[InputRequired(),Email(message='Invalid email'),Length(max=50)])
+    user_account = StringField('account',validators=[InputRequired(),Length(min=4,max=20)])
+    user_password = PasswordField('password',validators=[InputRequired(),Length(min=8,max=80)])
+
+@app.route("/",methods=['GET', 'POST'])  # 告訴你怎樣的url可以call怎樣的function
 def index():  # 就是一個function的名稱 上方的裝飾器會call他
     return render_template('index.html')
     '''
@@ -23,10 +46,25 @@ def index():  # 就是一個function的名稱 上方的裝飾器會call他
         #return "Hello " + name + "!"
         return redirect(url_for('index')) #只要有name重新導向到index
     '''
+@app.route('/compose', methods=['GET', 'POST'])
+def send_select():
+    get_time = request.values.get("time_btn")
+    get_style = request.values.get("style_btn")
+    get_mood = request.values.get("mood_btn")
+    print("1111111111111111111111111111111111111111111111111")
+    print(get_time)
+    print("1111111111111111111111111111111111111111111111111")
+    return render_template('compose.html', time=get_time,style=get_style,mood=get_mood)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    get_nickname =  request.values.get("nickname")
+    get_account =  request.values.get("account")
+    get_password =  request.values.get("password")
+    get_repassword =  request.values.get("repassword")
+    # database 
+    return render_template('login.html',nickname = get_nickname,form = form)
     '''
 	if request.method == 'POST':
         if request.values['userid'] in member:
@@ -38,6 +76,13 @@ def login():
 			return render_template('login.html', alert="Your account is unregistered.")
     '''
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    return render_template('upload.html')
 
 @app.route('/user/<name>')
 def user(name):
@@ -53,7 +98,7 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
-'''if __name__ == "__main__":
-	app.run(host='0.0.0.0',port='5000',debug=True) '''
-#執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
+if __name__ == "__main__":
+	app.run(host='0.0.0.0',port='5000',debug=True) #執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
 #ip = http://192.168.1.103:5000/
+#ip = http://10.22.30.249:5000/
