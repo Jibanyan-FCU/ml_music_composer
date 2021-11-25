@@ -198,6 +198,16 @@ body{
     margin: 0;
 }
 
+#download_btn{
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    text-align: center;
+    pointer-events: none;
+    cursor: default;
+}
+
 /*
 pink rgb(255,97,214)
 blue rgb(0,176,240)
