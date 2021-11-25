@@ -39,18 +39,9 @@ class Register(FlaskForm):
 
 @app.route("/",methods=['GET', 'POST'])  # 告訴你怎樣的url可以call怎樣的function
 def index():  # 就是一個function的名稱 上方的裝飾器會call他
-    get_time = request.values.get("time_btn")
-    get_style = request.values.get("style_btn")
-    get_mood = request.values.get("mood_btn")
-
-    if(get_mood!=""):
-        print("----------------------------------------------------------123132------------------")
-    else:
-        file_path = get_new_music()
-        file_name = file_path.split('/'),[-1]
-        print(file_name)
-        return send_from_directory(file_path, file_name, as_attachment=True)
-    return render_template('index.html',time=get_time,style=get_style,mood=get_mood)
+    
+    file_path = get_new_music()
+    return render_template('index.html')
    
     
     '''
