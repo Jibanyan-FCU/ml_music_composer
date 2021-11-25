@@ -1,9 +1,12 @@
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 import numpy as np
 import pickle
 import music21
 import time
 from random import randint
+import os
+
+OUTPUT_PATH = 'static/file/'
 
 def sigleton(cls):
     
@@ -78,14 +81,16 @@ class Mu_Model:
             new_note_or_chord.storedInstrument = music21.instrument.Piano()
             melody.append(new_note_or_chord)
             offset += 0.5
-
+        
         t = time.localtime()
-        file_name = f'output/output_{t.tm_year}_{t.tm_mon}_{t.tm_mday}_{t.tm_hour}_{t.tm_min}_{t.tm_sec}.mid'
+        file_name = f'output_{t.tm_year}_{t.tm_mon}_{t.tm_mday}_{t.tm_hour}_{t.tm_min}_{t.tm_sec}.mid'
+        file_path = f'{OUTPUT_PATH}/{file_name}'
         midi_stream = music21.stream.Stream(melody)
-        midi_stream.write('midi', fp=file_name)
+        
+        try:
+            midi_stream.write('midi', fp=file_path)
+        except FileNotFoundError:
+            os.system('mkdir output')
+            midi_stream.write('midi', fp=file_path)
 
-        return file_name
-
-
-m = Mu_Model()
-m.make_music()
+        return file_path
