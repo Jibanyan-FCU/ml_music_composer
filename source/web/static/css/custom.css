@@ -188,14 +188,24 @@ body{
     color:rgb(113, 81, 133);
     font-size: 24px;
     font-weight: 700;
-    padding: 40px;
+    padding: 20px;
 }
 
 #operate .drop-item :hover,#operate .touch :hover,#operate .drop-item :visited{
     color:rgb(189, 29, 238);
     font-size: 28px;
-    padding: 37px;
+    padding: 17px;
     margin: 0;
+}
+
+#download_btn{
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    text-align: center;
+    pointer-events: none;
+    cursor: default;
 }
 
 /*
