@@ -93,4 +93,4 @@ class Mu_Model:
             os.system('mkdir output')
             midi_stream.write('midi', fp=file_path)
 
-        return file_name
+        return file_path

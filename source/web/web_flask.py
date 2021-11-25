@@ -46,12 +46,14 @@ def index():  # 就是一個function的名稱 上方的裝飾器會call他
     if(get_mood!=""):
         print("----------------------------------------------------------123132------------------")
     else:
-        file_name = get_new_music()
+        file_path = get_new_music()
+        file_name = file_path.split('/'),[-1]
         print(file_name)
+        return send_from_directory(file_path, file_name, as_attachment=True)
     return render_template('index.html',time=get_time,style=get_style,mood=get_mood)
-'''    
-    return send_from_directory(OUTPUT_PATH, file_name, as_attachment=True)
+   
     
+    '''
     if request.method == 'POST':
         if request.values['send'] == '送出':
             return render_template('index.html', name=request.values['user'])
