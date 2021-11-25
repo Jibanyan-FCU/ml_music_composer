@@ -195,7 +195,6 @@ body{
     color:rgb(189, 29, 238);
     font-size: 28px;
     padding: 17px;
-    margin: 0;
 }
 
 #download_btn{
@@ -204,7 +203,6 @@ body{
     margin-top: 10px;
     margin-bottom: -10px;
     text-align: center;
-    pointer-events: none;
     cursor: default;
 }
 
