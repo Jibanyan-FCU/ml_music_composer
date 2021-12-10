@@ -40,10 +40,10 @@ class Register(FlaskForm):
 @app.route("/",methods=['GET', 'POST'])  # 告訴你怎樣的url可以call怎樣的function
 def index():  # 就是一個function的名稱 上方的裝飾器會call他
     
-    file_name = get_new_music()
+    '''file_name = get_new_music()
     file_path = 'static/file'
     if file_name:
-        return send_from_directory('index.html',file_path, file_name,as_attachment=True)
+        return send_from_directory('index.html',file_path, file_name,as_attachment=True)'''
     return render_template('index.html')
    
     
@@ -121,7 +121,6 @@ def page_not_found(e):
     return render_template('500.html'), 500
 
 if __name__ == "__main__":
-    Mu_Model()
     app.run(host='0.0.0.0',port='5000',debug=True) #執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
 #ip = http://192.168.1.103:5000/
 #ip = http://10.22.30.249:5000/
