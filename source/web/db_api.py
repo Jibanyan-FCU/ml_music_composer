@@ -21,12 +21,16 @@ def make_db_command(mode, *args, **kwargs):
         '''.format(pattern,file_id)
         return InsertData
     
-    def insert_Compare(compare):
+    def insert_Compare(real,fake,pattern_id):
         InsertCompare = '''
-            INSERT INTO compare (fake)
-            VALUES("{}")
-        '''.format(compare)
+            INSERT INTO compare (real,fake,pattern)
+            VALUES("{}","{}",{})
+        '''.format(real,fake,pattern_id)
         return InsertCompare
+
+    def search_file_name_id(file_name):
+        cmd = 'SELECT id FROM music WHERE file_name = "{}"'
+        return cmd.format(file_name)
 
     def voteRealCounter(compare_id):
         counter = '''
@@ -57,13 +61,13 @@ def make_db_command(mode, *args, **kwargs):
             SELECT *
             FROM Compare JOIN Pattern ON Compare.pattern = Pattern.id JOIN Music ON Pattern.pattern = Music.id 
             WHERE Music.style = "{}"
-        '''#語句修正
+        '''
         return cmd2.format(style)
     
     if mode == 'insert_p':
         sql = insert_Database(kwargs['pattern'],kwargs['file_id'])
     elif mode == 'insert_c':
-        sql = insert_Compare(kwargs['compare'])
+        sql = insert_Compare(kwargs['real'],kwargs['fake'],kwargs['pattern_id'])
     elif mode == 'voteR':
         sql = voteRealCounter(kwargs['compare_id'])
     elif mode == 'voteF':
@@ -72,6 +76,10 @@ def make_db_command(mode, *args, **kwargs):
         sql = search_style(kwargs['style'])
     elif mode == 'search_style_file':
         sql = search_style_file(kwargs['style'])
+    elif mode == 'search_file_name':
+        sql = search_file_name_id(kwargs['file_name'])
+    else:
+        raise ValueError('"mode" is incorrect.')
     
     return sql
 
