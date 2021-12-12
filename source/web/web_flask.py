@@ -1,6 +1,7 @@
 from datetime import timedelta
+
 from flask import Flask, render_template, url_for, redirect
-from flask.helpers import url_for
+from flask.helpers import send_from_directory, url_for
 #將flask中的Flask import 進來 以供使用
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
@@ -11,8 +12,12 @@ from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, Email,InputRequired
 from flask_bootstrap import Bootstrap
 
+from mu_model import *
+from mu_model_api import get_new_music
+
 app = Flask(__name__) # 創建一個Flask的 instance
 Bootstrap(app)
+
 app.config['SECRET_KEY'] = 'this is a secret'
 '''app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
@@ -34,18 +39,33 @@ class Register(FlaskForm):
 
 @app.route("/",methods=['GET', 'POST'])  # 告訴你怎樣的url可以call怎樣的function
 def index():  # 就是一個function的名稱 上方的裝飾器會call他
+    
+    file_name = get_new_music()
+    file_path = 'static/file'
+    if file_name:
+        return send_from_directory('index.html',file_path, file_name,as_attachment=True)
     return render_template('index.html')
+   
+    
     '''
     if request.method == 'POST':
         if request.values['send'] == '送出':
             return render_template('index.html', name=request.values['user'])
-    '''
-    '''if name==None:
+    
+    if name==None:
         return render_template("index.html")
     else:
         #return "Hello " + name + "!"
         return redirect(url_for('index')) #只要有name重新導向到index
-    '''
+    
+
+@app.route("/aaaaa", methods=['GET', 'POST'])
+def make_new_song():
+    file_name = get_new_music()
+
+    return send_from_directory(OUTPUT_PATH, file_name, as_attachment=True)'''
+
+
 @app.route('/compose', methods=['GET', 'POST'])
 def send_select():
     get_time = request.values.get("time_btn")
@@ -55,6 +75,8 @@ def send_select():
     print(get_time)
     print("1111111111111111111111111111111111111111111111111")
     return render_template('compose.html', time=get_time,style=get_style,mood=get_mood)
+
+    
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -99,6 +121,7 @@ def page_not_found(e):
     return render_template('500.html'), 500
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0',port='5000',debug=True) #執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
+    Mu_Model()
+    app.run(host='0.0.0.0',port='5000',debug=True) #執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
 #ip = http://192.168.1.103:5000/
 #ip = http://10.22.30.249:5000/

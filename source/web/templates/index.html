@@ -9,12 +9,7 @@
             <div class="jumbotorn">
                 <div class="container">
                     <div class="row">
-        
-                        <div class="col-md-12 title">
-                            <h1 class="text-center col-md-12">Join us and enjoy music.</h1>
-                        </div>
-        
-                        <div class="col-md-12">
+                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-8 text-left">
                                     <br>
@@ -42,7 +37,6 @@
                 <input type="submit" name="send" value="送出">
             </form>
             {% else %}
-            <p>Hello,{{name}}!!!</p>
             {% endif %}
         </section>-->
         
@@ -50,12 +44,8 @@
         <section id="operate">
             <div class="jumbotorn">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 offset-3 text-center">
-                            <p class="operate_title">還沒登入嗎?先試試基本款?</p>
-                        </div>
-                    </div>
-                    <form method='get/post' action="compose">
+                    <form method='get/post' action="/">
+                        <!--
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="row drop-menu">
@@ -141,6 +131,7 @@
                                 </div>
                             </div>
                         </div>
+                        -->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row drop-menu">
@@ -148,7 +139,7 @@
                                         <input id="send" type="submit" src="img/introimg.PNG" value="Composing">
                                     </div>
                                     <div class="col-md-12 touch">
-                                        <a id="download_btn" href="{{url_for('static', filename='file/music.mid')}}" download="bittibeat music">Download</a>
+                                        <a id="download_btn" href="{{url_for('static', filename='file/Bach_G_minor_arr._Luo_Ni.mxl')}}" download="bittibeat music">Download</a>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +147,6 @@
                     </form>
                 </div>
             </div>
-            <p> 5555555555555555555</p>
         </section>
         <!--user case ssection-->
         <script>
