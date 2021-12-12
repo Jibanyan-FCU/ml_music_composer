@@ -17,14 +17,14 @@ def make_db_command(mode, *args, **kwargs):
     def insert_Database(pattern, file_id):
         InsertData = '''
             INSERT INTO pattern (pattern,file_id)
-            VALUES({},{})
+            VALUES("{}",{})
         '''.format(pattern,file_id)
         return InsertData
     
     def insert_Compare(compare):
         InsertCompare = '''
             INSERT INTO compare (fake)
-            VALUES({})
+            VALUES("{}")
         '''.format(compare)
         return InsertCompare
 
@@ -44,21 +44,21 @@ def make_db_command(mode, *args, **kwargs):
         '''.format(compare_id)
         return counter
 
-    def search_style(composer):
+    def search_style(style):
         cmd = '''
             SELECT * 
             FROM pattern JOIN Music ON pattern.file_id = Music.id
-            WHERE Music.style = {}
+            WHERE Music.style = "{}"
         '''
-        return cmd.format(composer)
+        return cmd.format(style)
 
-    def search_style_file(composer):
+    def search_style_file(style):
         cmd2 = '''
             SELECT *
             FROM Compare JOIN Pattern ON Compare.pattern = Pattern.id JOIN Music ON Pattern.pattern = Music.id 
-            WHERE Music.style = {}
+            WHERE Music.style = "{}"
         '''#語句修正
-        return cmd2.format(composer)
+        return cmd2.format(style)
     
     if mode == 'insert_p':
         sql = insert_Database(kwargs['pattern'],kwargs['file_id'])
@@ -69,9 +69,9 @@ def make_db_command(mode, *args, **kwargs):
     elif mode == 'voteF':
         sql = voteFakeCounter(kwargs['compare_id'])
     elif mode == 'search_style':
-        sql = search_style(kwargs['composer'])
+        sql = search_style(kwargs['style'])
     elif mode == 'search_style_file':
-        sql = search_style_file(kwargs['composer'])
+        sql = search_style_file(kwargs['style'])
     
     return sql
 
