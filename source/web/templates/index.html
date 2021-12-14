@@ -136,7 +136,9 @@
                             <div class="col-md-12">
                                 <div class="row drop-menu">
                                     <div class="col-md-12 touch">
-                                        <input id="send" type="submit" src="img/introimg.PNG" value="Composing">
+                                        <form action="../web_flask.py" method="post">
+                                            <input id="send" name="send" type="submit" formmethod="post" src="img/introimg.PNG" value="Composing"/>
+                                        </form>
                                     </div>
                                     <div class="col-md-12 touch">
                                         <a id="download_btn" href="{{url_for('static', filename='file/Bach_G_minor_arr._Luo_Ni.mxl')}}" download="bittibeat music">Download</a>

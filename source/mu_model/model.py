@@ -1,14 +1,11 @@
-from functools import partialmethod
-from keras import callbacks
-from numpy.core.fromnumeric import argmax
 from .general import sigleton
 from .processer import Preprocesser, Pattern_Manager
 
 import numpy as np
-from keras.models import Sequential, load_model
-from keras.layers import  LSTM, Dense, Dropout
-from keras.utils import np_utils
-from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, TerminateOnNaN, CSVLogger
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import  LSTM, Dense, Dropout
+from tensorflow.keras.utils import np_utils
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, TerminateOnNaN, CSVLogger
 
 import matplotlib.pyplot as plt
 

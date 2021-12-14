@@ -1,4 +1,5 @@
 from datetime import timedelta
+import os
 
 from flask import Flask, render_template, url_for, redirect
 from flask.helpers import send_from_directory, url_for
@@ -11,7 +12,7 @@ from wtforms.validators import DataRequired, Length, Email,InputRequired
 from flask_bootstrap import Bootstrap
 
 
-from mu_model import model_api
+#from mu_model import model_api
 
 app = Flask(__name__) # 創建一個Flask的 instance
 Bootstrap(app)
@@ -35,14 +36,18 @@ class Register(FlaskForm):
     user_account = StringField('account',validators=[InputRequired(),Length(min=4,max=20)])
     user_password = PasswordField('password',validators=[InputRequired(),Length(min=8,max=80)])
 
+
+
 @app.route("/",methods=['GET', 'POST'])  # 告訴你怎樣的url可以call怎樣的function
 def index():  # 就是一個function的名稱 上方的裝飾器會call他
-    
+    file_name = 'Bach_G_minor_arr._Luo_Ni.mxl'
     '''file_name = get_new_music()
     file_path = 'static/file'
     if file_name:
         return send_from_directory('index.html',file_path, file_name,as_attachment=True)'''
-    # file_name = model_api.make_music()
+    if request.method == 'POST': # form action要指回這個檔案&method = post
+        if request.values['send'] == 'Composing': # in html(nmae = 'send')
+            return send_from_directory('static/file',file_name, as_attachment=True)
     return render_template('index.html')
    
     
@@ -122,7 +127,5 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0',port='5000',debug=True) #執行的意思，debug的意思是如果你更改程式碼並儲存，那他將會重啟，變為你剛才更新後的樣子
 #ip = http://192.168.1.103:5000/
 #ip = http://10.22.30.249:5000/
