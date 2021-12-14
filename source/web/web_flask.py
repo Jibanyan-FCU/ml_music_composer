@@ -5,8 +5,6 @@ from flask.helpers import send_from_directory, url_for
 #將flask中的Flask import 進來 以供使用
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
-import pymysql
-import pymysql.cursors
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, Email,InputRequired
