@@ -1,0 +1,234 @@
+<!doctype html>
+{% extends 'base.html' %}
+
+<body>
+    {% block content %}
+    <!-- introduce section-->
+    <br><br><br><br>
+    <section id="intro">
+        <div class="jumbotorn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-8 text-left">
+                                <br>
+                                <p>加入bittobeat會員，就能創作超多音樂喔!</p>
+                                <br>
+                                <p>你好!我們是bittobeat的製作團隊。</p>
+                                <p>如果覺得bittobeat好用的話，希望你能支持我們。</p>
+                                <p>若有任何地方是我們能幫上忙的，也歡迎寄信給我們。</p>
+                                <br>
+                                <p>點擊分享查看他人的作品，或許能找到靈感喔!</p>
+                            </div>
+                            <img class="col-md-4" src="/static/img/introimg.PNG">
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="operate">
+        <div class="jumbotorn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-3 text-center">
+                        <p class="operate_title">聽聽看，猜猜哪一首是生成的!</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 offset-2 text-center">
+                        <p class="operate_title">第1組</p>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="col-md-2 offset-1 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2 offset-2 text-center">
+                        <p class="operate_title">第2組</p>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="col-md-2 offset-1 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2 offset-2 text-center">
+                        <p class="operate_title">第3組</p>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="col-md-2 offset-1 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2 offset-2 text-center">
+                        <p class="operate_title">第4組</p>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="col-md-2 offset-1 text-center">
+                        <audio controls loop src="static/music/音樂-森林.mp3">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <source src="horse.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <br><br>
+                <div class="touch">
+                    <a id="download_btn" href="https://bhuntr.com/tw" target="blank" onclick="unlock()">先作答才能看答案!</a>
+                </div>
+                <br>
+                <div class="touch">
+                    <input type="submit" id="change_value" src="img/introimg.PNG" onclick="show_ans()" value="作答後點我看答案!" disabled>
+                </div>
+                <br><br>
+                <div class="row" id="hide" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-2 offset-2 text-center">
+                            <p class="operate_title">答案1</p>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <h2 class="ansblock correct">生成</h2>
+                        </div>
+                        <div class="col-md-2 offset-1 text-center">
+                            <h2 class="ansblock">原曲</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2 offset-2 text-center">
+                            <p class="operate_title">答案2</p>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <h2 class="ansblock correct">生成</h2>
+                        </div>
+                        <div class="col-md-2 offset-1 text-center">
+                            <h2 class="ansblock">原曲</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2 offset-2 text-center">
+                            <p class="operate_title">答案3</p>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <h2 class="ansblock">原曲</h2>
+                        </div>
+                        <div class="col-md-2 offset-1 text-center">
+                            <h2 class="ansblock correct">生成</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2 offset-2 text-center">
+                            <p class="operate_title">答案4</p>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <p class="ansblock correct">生成</p>
+                        </div>
+                        <div class="col-md-2 offset-1 text-center">
+                            <h2 class="ansblock">原曲</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--user case ssection-->
+    <script>
+        function timeselect(option) {
+            document.getElementById("timebtn").value = option;
+        }
+
+        function styleselect(option) {
+            document.getElementById("stylebtn").value = option;
+        }
+
+        function moodselect(option) {
+            document.getElementById("moodbtn").value = option;
+        }
+    </script>
+
+    <script>
+        function unlock() {
+            target = document.getElementById("change_value");
+            target.removeAttribute('disabled');
+        }
+
+        function show_ans(option) {
+            target = document.getElementById("hide");
+            change = document.getElementById("change_value");
+            
+            if (target.style.display === "none"){
+                change.value = "收起答案!";
+                target.style.display = "block";
+            }
+            else{
+                change.value = "點我看答案!";
+                target.style.display = "none";
+            }
+        }
+    </script>
+    
+    {% endblock %}
+
+    <!-- container layer 8:4-->
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+        crossorigin="anonymous">
+    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+    -->
+</body>
