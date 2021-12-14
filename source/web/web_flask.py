@@ -10,8 +10,8 @@ from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, Email,InputRequired
 from flask_bootstrap import Bootstrap
 
-from mu_model import *
-from mu_model_api import get_new_music
+
+from mu_model import model_api
 
 app = Flask(__name__) # 創建一個Flask的 instance
 Bootstrap(app)
@@ -42,6 +42,7 @@ def index():  # 就是一個function的名稱 上方的裝飾器會call他
     file_path = 'static/file'
     if file_name:
         return send_from_directory('index.html',file_path, file_name,as_attachment=True)'''
+    # file_name = model_api.make_music()
     return render_template('index.html')
    
     
