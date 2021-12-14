@@ -65,6 +65,9 @@ def make_new_song():
 
     return send_from_directory(OUTPUT_PATH, file_name, as_attachment=True)'''
 
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+    return render_template('result.html')
 
 @app.route('/compose', methods=['GET', 'POST'])
 def send_select():
