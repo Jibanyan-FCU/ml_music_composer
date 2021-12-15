@@ -4,7 +4,7 @@ from .processer import Preprocesser, Pattern_Manager
 import numpy as np
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import  LSTM, Dense, Dropout
-from tensorflow.keras.utils import np_utils
+import np_utils
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, TerminateOnNaN, CSVLogger
 
 import matplotlib.pyplot as plt
