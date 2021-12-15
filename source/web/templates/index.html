@@ -84,7 +84,7 @@
                                         <input id="send" type="submit" src="img/introimg.PNG" value="作曲" style="display: none;">
                                     </div>
                                     <div class="col-md-12 touch">
-                                        <a id="download_btn" href="{{url_for('static', filename='file/music.mid')}}" download="bittibeat music" style="display: none;">下載</a>
+                                        <a id="download_btn" href="{{url_for('static', filename='file/music.mid')}}" download="bittibeat music" style="display: none;">生成</a>
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +102,7 @@
                 document.getElementById("stylebtn").value = option;
                 target.value = "生成"+option;
                 show.style.display= "block";
+                show.innerHTML = "生成"+option;
                 target.style.display= "block";
             }
 
