@@ -295,3 +295,13 @@ purple rgb(166,141,247)
     
 }
 /*----------------------------------------------------------------------------------------------------*/
+.ansblock{
+    background-color: rgba(109, 20, 136, 0.7);
+    color:rgb(255, 255, 255);
+    border-radius: 40px;
+    font-size: 30px;
+    font-weight: 600;
+    background-clip: text;
+    text-align: center;
+    padding: 10px;
+}
