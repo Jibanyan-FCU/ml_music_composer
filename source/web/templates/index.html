@@ -9,13 +9,14 @@
             <div class="jumbotorn">
                 <div class="container">
                     <div class="row">
-                         <div class="col-md-12">
+        
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-8 text-left">
                                     <br>
                                     <p>加入bittobeat會員，就能創作超多音樂喔!</p>
                                     <br>
-                                    <p>你好！我們是bittobeat的製作團隊。</p>
+                                    <p>你好!我們是bittobeat的製作團隊。</p>
                                     <p>如果覺得bittobeat好用的話，希望你能支持我們。</p>
                                     <p>若有任何地方是我們能幫上忙的，也歡迎寄信給我們。</p>
                                     <br>
@@ -44,35 +45,19 @@
         <section id="operate">
             <div class="jumbotorn">
                 <div class="container">
+                    
                     <form method='get/post' action="/">
-                        <!--
+                        
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4 offset-4">
                                 <div class="row drop-menu">
                                     <div class="col-md-12 touch">
-                                        <input id="timebtn" src="img/introimg.PNG" type="hidden" value="" name="time_btn">
+                                        <input id="stylebtn" type="hidden" src="img/introimg.PNG" value="" name="style_btn">
                                     </div>
-                                    <div class="drop-group">
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="timeselect('10s-1min')" id="time1" type="button" src="img/introimg.PNG"
-                                                value="10s-1min">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <p class="operate_title">先選擇生成的風格</p>
                                         </div>
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="timeselect('1min-3min')" id="time2" type="button" src="img/introimg.PNG"
-                                                value="1min-3min">
-                                        </div>
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="timeselect('3min-5min')" id="time3" type="button" src="img/introimg.PNG"
-                                                value="3min-5min">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-            
-                            <div class="col-md-3">
-                                <div class="row drop-menu">
-                                    <div class="col-md-12 touch">
-                                        <input id="stylebtn" type="hidden" src="img/introimg.PNG" value="">
                                     </div>
                                     <div class="drop-group">
                                         <div class="drop-item col-md-12">
@@ -84,64 +69,22 @@
                                             src="img/introimg.PNG" value="莫札特" name="style">
                                         </div>
                                         <div class="drop-item col-md-12">
-                                            <input onclick="styleselect('巴哈')" id="style3" type="button"
-                                            src="img/introimg.PNG" value="巴哈" name="style">
+                                            <input onclick="styleselect('遊戲配樂')" id="style3" type="button"
+                                            src="img/introimg.PNG" value="遊戲配樂" name="style">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-            
-                            <div class="col-md-3">
-                                <div class="row drop-menu">
-                                    <div class="col-md-12 touch">
-                                        <input id="moodbtn" type="hidden" src="img/introimg.PNG" value="">
-                                    </div>
-                                    <div class="drop-group">
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="moodselect('happy')" id="mood1" type="button" src="img/introimg.PNG"
-                                                value="愉悅" name="radio">
-                                        </div>
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="moodselect('sad')" id="mood2" type="button" src="img/introimg.PNG"
-                                                value="抒情" name="radio">
-                                        </div>
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="moodselect('angry')" id="mood3" type="button" src="img/introimg.PNG"
-                                                value="激昂" name="radio">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-            
-                            <div class="col-md-3">
-                                <div class="row drop-menu">
-                                    <div class="col-md-12 touch">
-                                        <input id="seedbtn" type="hidden" src="img/introimg.PNG" value="">
-                                    </div>
-                                    <div class="drop-group">
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="timeselect('10s-1min')" id="seed1" type="button" src="img/introimg.PNG"
-                                                value="尚未確定">
-                                        </div>
-                                        <div class="drop-item col-md-12">
-                                            <input onclick="timeselect('1min-3min')" id="seed2" type="button" src="img/introimg.PNG"
-                                                value="未確定">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        -->
+                        </div> 
+                           
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row drop-menu">
                                     <div class="col-md-12 touch">
-                                        <form action="../web_flask.py" method="post">
-                                            <input id="send" name="send" type="submit" formmethod="post" src="img/introimg.PNG" value="Composing"/>
-                                        </form>
+                                        <input id="send" type="submit" src="img/introimg.PNG" value="作曲">
                                     </div>
                                     <div class="col-md-12 touch">
-                                        <a id="download_btn" href="{{url_for('static', filename='file/Bach_G_minor_arr._Luo_Ni.mxl')}}" download="bittibeat music">Download</a>
+                                        <a id="download_btn" href="{{url_for('static', filename='file/music.mid')}}" download="bittibeat music" style="display: none;">下載</a>
                                     </div>
                                 </div>
                             </div>
@@ -149,20 +92,18 @@
                     </form>
                 </div>
             </div>
+
         </section>
         <!--user case ssection-->
         <script>
-            function timeselect(option) {
-                document.getElementById("timebtn").value = option;
-            }
-
             function styleselect(option) {
+                target = document.getElementById("send");
+                show = document.getElementById("download_btn");
                 document.getElementById("stylebtn").value = option;
+                target.value = "生成"+option;
+                show.style.display= "block";
             }
 
-            function moodselect(option) {
-                document.getElementById("moodbtn").value = option;
-            }
         </script>
 
         {% endblock %}
