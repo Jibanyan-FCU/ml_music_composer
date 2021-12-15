@@ -81,7 +81,7 @@
                             <div class="col-md-12">
                                 <div class="row drop-menu">
                                     <div class="col-md-12 touch">
-                                        <input id="send" type="submit" src="img/introimg.PNG" value="作曲">
+                                        <input id="send" type="submit" src="img/introimg.PNG" value="作曲" style="display: none;">
                                     </div>
                                     <div class="col-md-12 touch">
                                         <a id="download_btn" href="{{url_for('static', filename='file/music.mid')}}" download="bittibeat music" style="display: none;">下載</a>
@@ -102,6 +102,7 @@
                 document.getElementById("stylebtn").value = option;
                 target.value = "生成"+option;
                 show.style.display= "block";
+                target.style.display= "block";
             }
 
         </script>
