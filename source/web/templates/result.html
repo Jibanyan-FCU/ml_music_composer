@@ -31,14 +31,36 @@
     </section>
 
     <!-- 一鍵生成 試做 -->
+    <!--
     <section id="one_key">
         <a href="/?generate=true"> 生成 </a>
         <a href="/download/{{download_file}}" {{hidden}}> 下載 </a>
     </section>
+    -->
     
     <section id="operate">
         <div class="jumbotorn">
             <div class="container">
+                <div class="row" id="one_key">
+                    <div class="col-md-6 offset-3 text-center">
+                        <p class="operate_title">一鍵生成</p>
+                    </div>
+                    <div class="col-md-6 offset-3 text-center"> 
+                        <div class="row">
+                            <div class="col-md-12 touch">
+                                <a href="/?generate=true"> 生成 </a>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">    
+                            <div class="col-md-12 touch">
+                                <a href="/download/{{download_file}}" {{hidden}}> 下載 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+                
                 <div class="row">
                     <div class="col-md-6 offset-3 text-center">
                         <p class="operate_title">聽聽看，生成出來的音樂!</p>
@@ -47,19 +69,44 @@
 
                 <!-- 篩選器 -->
                 <form method="get">
-                    <div class="col-md-2 offset-2 text-center">
-                        <p class="operate_title"> 選擇你的風格 </p>
-                    </div>
-                    <div class="col-md-3 text-center">
-                        <select name="style">
-                            <option value="" selected> 全部 </option>
-                            <option value="game"> 遊戲配樂 </option>
-                            <option value="beethoven"> 貝多芬 </option>
-                            <option disabled> 敬請期待 </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 text-center">
-                        <button type="submit"> 篩選！ </button>
+                    <div class="row">
+                        <div class="col-md-4 offset-4">
+                            <div class="row drop-menu">
+                                <div class="col-md-12 touch">
+                                    <input id="stylebtn" type="hidden" src="img/introimg.PNG" value="" name="style_btn">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <p class="operate_title">先選擇風格</p>
+                                    </div>
+                                    <div class="col-md-12 text-center">
+                                        <select name="style">
+                                            <option src="img/introimg.PNG" value="" selected> 全部 </option>
+                                            <option value="game"> 遊戲配樂 </option>
+                                            <option value="beethoven"> 貝多芬 </option>
+                                            <option disabled> 敬請期待 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br><br><br>
+                                <!--
+                                    <div class="drop-group">
+                                        <div class="drop-item col-md-12">
+                                            <input onclick="styleselect('貝多芬')" id="style1" type="button" 
+                                            src="img/introimg.PNG" value="beethoven">
+                                        </div>
+                                        <div class="drop-item col-md-12">
+                                            <input onclick="styleselect('遊戲配樂')" id="style3" type="button"
+                                            src="img/introimg.PNG" value="game">
+                                        </div>
+                                    </div>
+                                -->
+                                <br><br>
+                                <div class="col-md-12 text-center">
+                                    <button id="filter_btn" type="submit"> 篩選 </button>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                 </form>
                 
