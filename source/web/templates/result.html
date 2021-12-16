@@ -39,9 +39,27 @@
                     </div>
                 </div>
 
+                <!-- 篩選器 -->
+                <form method="get">
+                    <div class="col-md-2 offset-2 text-center">
+                        <p class="operate_title"> 選擇你的風格 </p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <select name="style">
+                            <option value="" selected> 全部 </option>
+                            <option value="game"> 遊戲配樂 </option>
+                            <option value="beethoven"> 貝多芬風格 </option>
+                            <option disabled> 敬請期待 </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button type="submit"> 篩選！ </h2>
+                    </div>
+                </form>
+                
                 <div class="row">
                     <div class="col-md-2 offset-2 text-center">
-                        <p class="operate_title">組別</p>
+                        <p class="operate_title"> 比對編號 </p>
                     </div>
                     <div class="col-md-3 text-center">
                         <h2 class="ansblock">生成樂段</h2>
@@ -55,7 +73,7 @@
                     {% for _, row in dataframe.iterrows() %}
                     <div class="row">
                         <div class="col-md-2 offset-2 text-center">
-                            <p class="operate_title">第 {{row.id}} 組</p>
+                            <p class="operate_title"> No. {{row.id}} </p>
                         </div>
                         <div class="col-md-2 text-center">
                             <audio controls loop src="{{ compare_storage + '/' + row.fake.split('/')[-1] }}">

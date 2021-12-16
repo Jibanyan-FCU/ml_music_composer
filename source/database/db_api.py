@@ -31,7 +31,7 @@ def insert_compare_command(real, fake, style):
 def search_compare_by_style(style):
 
     cmd = f'''
-        SELECT * FROM compare WHERE style = "{style}"
+        SELECT * FROM compare WHERE style LIKE "%{style}%"
     '''
 
     df = pd.read_sql_query(cmd, DB)
