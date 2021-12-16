@@ -21,7 +21,7 @@ def make_db_command(mode, *args, **kwargs):
         '''.format(pattern,file_id)
         return InsertData
     
-    def insert_Compare(real,fake,pattern_id):
+    def insert_compare(real,fake,pattern_id):
         InsertCompare = '''
             INSERT INTO compare (real,fake,pattern)
             VALUES("{}","{}",{})
@@ -67,7 +67,7 @@ def make_db_command(mode, *args, **kwargs):
     if mode == 'insert_p':
         sql = insert_Database(kwargs['pattern'],kwargs['file_id'])
     elif mode == 'insert_c':
-        sql = insert_Compare(kwargs['real'],kwargs['fake'],kwargs['pattern_id'])
+        sql = insert_compare(kwargs['real'],kwargs['fake'],kwargs['pattern_id'])
     elif mode == 'voteR':
         sql = voteRealCounter(kwargs['compare_id'])
     elif mode == 'voteF':

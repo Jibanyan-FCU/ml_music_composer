@@ -6,3 +6,5 @@ output/
 log/
 old/
 playground.*
+compare/
+*copy*

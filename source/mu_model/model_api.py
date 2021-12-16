@@ -41,6 +41,17 @@ def train_model(epochs=2000, batch_size=100, train_melody=True, train_rhythm=Tru
 
 @_check_initial
 def make_music(pattern_index=None):    
-    _postprocesser.make_music(pattern_index=pattern_index)
+    file_name = _postprocesser.make_music(pattern_index=pattern_index)
+    return file_name
+
+@_check_initial
+def make_compare_music(pattern_index=None):
+    file_names = _postprocesser.make_compare(pattern_index=pattern_index)
+    return file_names
+
+    
+
+
+    
     
     

@@ -69,17 +69,6 @@ class Melody_Model:
         pitch_num = len(self._pattern_manager.int_to_pitch)
         print(pitch_num)
 
-        # model = Sequential()
-
-        # model.add(LSTM(units=512, input_shape=(None, self._pattern_manager.SEQUENCE_LENGTH), return_sequences=True))
-        # model.add(Dropout(0.3))
-        # model.add(LSTM(units=512))
-        # model.add(Dense(512))
-        # model.add(Dropout(0.3))
-        # model.add(Dense(256))
-        # model.add(Dropout(0.3))
-        # model.add(Dense(pitch_num, activation='softmax'))
-
         model = Sequential()
 
         model.add(LSTM(units=1024, input_shape=(None, self._pattern_manager.SEQUENCE_LENGTH), return_sequences=True))
@@ -208,7 +197,8 @@ class Rhythm_Model:
 class Mu_Model:
     def __init__(self):
         self._melody_model = Melody_Model()
-        self._rhythm_model = Rhythm_Model()    
+        self._rhythm_model = Rhythm_Model()
+        self._pattern_manager = Pattern_Manager()
 
     def create_model(self):
         self._melody_model.create_model()
@@ -226,20 +216,16 @@ class Mu_Model:
 
         if train_rhythm:
             self._rhythm_model.train(rhythm_X, rhythm_y, epochs, batch_size)
-
+    
     def predict_sequence(self, pattern_index=None, num=200, compare=False):
-        (melody_X, _), (rhythm_X, _) = Preprocesser().prepare_sequences()
+
+        sequence_X = self._pattern_manager.sequence_X
+        (melody_X, _), (rhythm_X, _) = self._pattern_manager.prepare_sequences()
         
         if pattern_index == None:
             index = randint(0, len(melody_X)-1)
         else:
             index = pattern_index
-
-        if compare:
-            num -= 50
-            index -= 50
-            if index < 0:
-                index = 0
         
         melody_pattern = melody_X[index]
         rhythm_pattern = rhythm_X[index]
@@ -251,8 +237,13 @@ class Mu_Model:
             music = zip(melody, rhythm)
             return music
         else:
-            origin = zip(melody_X[index+50], rhythm_X[index+50])
-            music = origin[:50] + zip(melody, rhythm)
+            origin = sequence_X[index-20]
+            o_m = [n[0] for n in origin[:20]]
+            o_r = [n[1] for n in origin[:20]]
+            melody = o_m + melody[:-20]
+            rhythm = o_r + rhythm[:-20]
+            music = zip(melody, rhythm)
+
             return music, origin
 
     def draw_line_chat(self, dir_path=LOG_PATH):

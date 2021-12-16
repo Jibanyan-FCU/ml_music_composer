@@ -1,10 +1,9 @@
 from .general import *
 
-from fractions import Fraction
-from music21 import converter, note, chord, stream
 import glob
 
-from time import ctime, localtime, strftime
+from random import randint
+from time import localtime, strftime
 import pickle
 
 @sigleton
@@ -12,7 +11,7 @@ class Pattern_Manager:
 
     SEQUENCE_LENGTH = 100
     
-    DATASET_DIR_PATH = 'mu_model/dataset'
+    DATASET_DIR_PATH = 'mu_model/dataset/beethoven'
     NOTE_INFO_PATH = 'mu_model/notes_info.dat'
 
     sequence_X = []
@@ -148,11 +147,13 @@ class Postprocesser:
 
         return file_name
 
-    def make_compare(self, output_path=None):
+    def make_compare(self, pattern_index=None, output_path=None):
         if output_path == None:
             output_path = self.COMPARE_PATH
+        if pattern_index == None:
+            pattern_index = randint(0, len(self._pattern_manager.sequence_X)-51)
 
-        fake_sequence, real_sequence = self._model.predict_sequence(compare=True)
+        fake_sequence, real_sequence = self._model.predict_sequence(pattern_index=pattern_index, compare=True)
 
         fake_stream = Music.combine_music(fake_sequence)
         real_stream = Music.combine_music(real_sequence)
