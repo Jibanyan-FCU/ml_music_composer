@@ -30,6 +30,12 @@
         </div>
     </section>
 
+    <!-- 一鍵生成 試做 -->
+    <section id="one_key">
+        <a href="/?generate=true"> 生成 </a>
+        <a href="/download/{{download_file}}" {{hidden}}> 下載 </a>
+    </section>
+    
     <section id="operate">
         <div class="jumbotorn">
             <div class="container">
@@ -48,12 +54,12 @@
                         <select name="style">
                             <option value="" selected> 全部 </option>
                             <option value="game"> 遊戲配樂 </option>
-                            <option value="beethoven"> 貝多芬風格 </option>
+                            <option value="beethoven"> 貝多芬 </option>
                             <option disabled> 敬請期待 </option>
                         </select>
                     </div>
                     <div class="col-md-3 text-center">
-                        <button type="submit"> 篩選！ </h2>
+                        <button type="submit"> 篩選！ </button>
                     </div>
                 </form>
                 
@@ -77,14 +83,12 @@
                         </div>
                         <div class="col-md-2 text-center">
                             <audio controls loop src="{{ compare_storage + '/' + row.fake.split('/')[-1] }}">
-                                <!--<source src="horse.ogg" type="audio/ogg">-->
                                 <source src="horse.mp3" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
                         </div>
                         <div class="col-md-2 offset-1 text-center">
                             <audio controls loop src="{{ compare_storage + '/' + row.real.split('/')[-1] }}">
-                                <!--<source src="horse.ogg" type="audio/ogg">-->
                                 <source src="horse.mp3" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
@@ -96,6 +100,8 @@
             </div>
         </div>
     </section>
+
+    
 
     <!--user case ssection-->
     <script>
